@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Api via Vue JS</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        .card {
+            border-radius: 1em;
+            box-shadow: 3px #cccccc;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            padding: 1em;
+            width: 10em;
+        }
+        .group {
+            display: grid;
+            grid-template-columns:repeat(6,1fr);
+        }
+    </style>
+</head>
+<div id="container">
+        <h3>International Bit Coin Rate</h3>
+        <div class="group">
+            <div v-for="(exchange,i) in apiData" class="card">
+                <div>{{exchange.code}}</div>
+                <div>{{exchange.description}}</div>
+                <div>{{exchange.rate_float}}</div>
+            </div>
+        </div>
+
+</div>
+<body>
+    <script type = "text/javascript">
+        var vue_det = new Vue({
+           el: '#container',
+           data() {
+             return {
+                apiData : []
+             }
+           },
+           created() {
+                this.fetchExchangeData();
+           },
+           methods: {
+               fetchExchangeData() {
+                // axios.get('http://forex.cbm.gov.mm/api/currencies')
+                axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+                        .then(response =>{
+                            this.apiData = response.data.bpi;
+                            console.log(this.apiData);
+                        });
+               }
+
+
+           }
+        });
+     </script>
+</body>
+</html>
